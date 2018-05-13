@@ -1,0 +1,270 @@
+---
+swagger: "2.0"
+info:
+  description: "This is a simple API"
+  version: "1.0.0"
+  title: "Station API"
+  contact:
+    email: "ayhanyunt@gmail.com"
+  license:
+    name: "Flask 0.12"
+    url: "http://flask.pocoo.org/docs/0.12/license/"
+host: "virtserver.swaggerhub.com"
+basePath: "/ayhanyunt12/MeteorolojiAPI/1.0.0"
+tags:
+- name: "developers"
+  description: "Operations available to regular developers"
+schemes:
+- "https"
+- "http"
+paths:
+  /station:
+    post:
+      tags:
+      - "developers"
+      summary: "create a new station"
+      description: "Create new station with the given parameters, insert it to database\
+        \ and returns the created station information."
+      operationId: "create_station"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        required: true
+        schema:
+          $ref: "#/definitions/body_1"
+      responses:
+        200:
+          description: "station created"
+        500:
+          description: "invalid input, object invalid"
+      x-swagger-router-controller: "swagger_server.controllers.developers_controller"
+    put:
+      tags:
+      - "developers"
+      summary: "update existing station"
+      description: "Update the station with given id and return the new station informations."
+      operationId: "update_station"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        required: true
+        schema:
+          $ref: "#/definitions/body"
+      responses:
+        200:
+          description: "OK"
+        500:
+          description: "invalid input, object invalid"
+      x-swagger-router-controller: "swagger_server.controllers.developers_controller"
+  /stations:
+    get:
+      tags:
+      - "developers"
+      summary: "get all station information"
+      description: "Return a json with all station's information"
+      operationId: "get_stations"
+      produces:
+      - "application/json"
+      parameters: []
+      responses:
+        200:
+          description: "station's fetched"
+        500:
+          description: "invalid input"
+      x-swagger-router-controller: "swagger_server.controllers.developers_controller"
+  /station/{id}:
+    get:
+      tags:
+      - "developers"
+      summary: "Get a user by ID"
+      operationId: "station_id_get"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "Numeric ID of the station to get"
+        required: true
+      responses:
+        200:
+          description: "station informations fetched"
+        500:
+          description: "invalid input"
+      x-swagger-router-controller: "swagger_server.controllers.developers_controller"
+    delete:
+      tags:
+      - "developers"
+      summary: "Delete a user by public_id"
+      operationId: "station_id_delete"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "Alphanumeric ID of the station to delete"
+        required: true
+      responses:
+        200:
+          description: "station deleted"
+        500:
+          description: "invalid input"
+      x-swagger-router-controller: "swagger_server.controllers.developers_controller"
+definitions:
+  Station:
+    type: "object"
+    required:
+    - "id"
+    - "lang"
+    - "latd"
+    - "name"
+    - "public_id"
+    properties:
+      id:
+        type: "integer"
+        format: "int32"
+        example: 1
+      public_id:
+        type: "integer"
+        format: "uuid"
+        example: "c9efdf46-4bdd-4cc2-a2f5-65c48261c445"
+      name:
+        type: "string"
+        example: "Sivas İstasyonu"
+      lang:
+        type: "number"
+        format: "float"
+        example: 37.015
+      latd:
+        type: "number"
+        format: "float"
+        example: 39.7505
+  Station_data_1h:
+    required:
+    - "felt_temperature"
+    - "precipitation_probability"
+    - "station_id"
+    - "temperature"
+    - "time"
+    - "windspeed"
+    properties:
+      station_id:
+        $ref: "#/definitions/Station"
+      time:
+        type: "string"
+        example: "2018-11-27 00:00"
+      temperature:
+        type: "number"
+        format: "float"
+        example: 43.0
+      felt_temperature:
+        type: "number"
+        format: "float"
+        example: 35.0
+      windspeed:
+        type: "number"
+        format: "float"
+        example: 7.16
+      precipitation_probability:
+        type: "integer"
+        format: "int32"
+        example: 34
+  Station_data_day:
+    required:
+    - "precipitation"
+    - "precipitation_probability"
+    - "relative_humidity_max"
+    - "relative_humidity_mean"
+    - "relative_humidity_min"
+    - "station_id"
+    - "temperature_max"
+    - "temperature_min"
+    - "time"
+    - "windspeed_max"
+    - "windspeed_mean"
+    - "windspeed_min"
+    properties:
+      id:
+        type: "integer"
+        format: "int32"
+        example: 1
+      station_id:
+        $ref: "#/definitions/Station"
+      time:
+        type: "string"
+        example: "2018-11-27 00:00"
+      temperature_max:
+        type: "number"
+        format: "float"
+        example: 43.0
+      temperature_min:
+        type: "number"
+        format: "float"
+        example: 20.0
+      precipitation_probability:
+        type: "integer"
+        format: "int32"
+        example: 34
+      precipitation:
+        type: "number"
+        format: "float"
+        example: 7.16
+      windspeed_max:
+        type: "number"
+        format: "float"
+        example: 7.16
+      windspeed_min:
+        type: "number"
+        format: "float"
+        example: 4.24
+      windspeed_mean:
+        type: "number"
+        format: "float"
+        example: 5.7
+      relative_humidity_max:
+        type: "integer"
+        format: "int32"
+        example: 70
+      relative_humidity_min:
+        type: "integer"
+        format: "int32"
+        example: 50
+      relative_humidity_mean:
+        type: "integer"
+        format: "int32"
+        example: 670
+  body:
+    type: "object"
+    properties:
+      public_id:
+        type: "integer"
+        format: "uuid"
+        example: "c9efdf46-4bdd-4cc2-a2f5-65c48261c445"
+      name:
+        type: "string"
+        example: "Sivas"
+      lang:
+        type: "number"
+        format: "float"
+        example: 37.015
+      latd:
+        type: "number"
+        format: "float"
+        example: 39.7505
+  body_1:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+        example: "Sivas"
+      lang:
+        type: "number"
+        format: "float"
+        example: 37.015
+      latd:
+        type: "number"
+        format: "float"
+        example: 39.7505
